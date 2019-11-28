@@ -194,12 +194,42 @@ setup.getOtherImages = function (currentLetter) {
     setup.getFileNames(xLetters[x]);
   }
   return returnFileNames;
-}</script><tw-passagedata pid="1" name="Home" tags="" position="620,300" size="100,100">PADA
+}
+
+
+setup.getRandomImage = function (currentLetter) {
+  
+  for (var outerArray = 0; outerArray < pictureArray.length; outerArray++) {
+    if (currentLetter == pictureArray[outerArray][0]) {
+  
+      // Looping through the innerArray
+      for(var innerArray = 0; innerArray < pictureArray[outerArray].length; innerArray++) {
+
+        letterPictureArray.push(pictureArray[outerArray][innerArray]);
+
+      }
+  
+      var fMin=0; 
+      var fMax=letterPictureArray[1].length-1;
+      var fRandom = Math.random() * (+fMax - +fMin) + +fMin; 
+      var fileName_1_index = Math.round(fRandom);
+  
+      var fileName_1_textName = letterPictureArray[1][fileName_1_index];
+  
+      letterPictureArray = [];
+
+      return fileName_1_textName
+
+    }
+  
+  }
+}
+</script><tw-passagedata pid="1" name="Home" tags="" position="620,300" size="100,100">PADA
 ALPHABET GAME
 
 
 [[Start Playing]]</tw-passagedata><tw-passagedata pid="2" name="Start Playing" tags="" position="620,450" size="100,100">Select [[start]] to continue</tw-passagedata><tw-passagedata pid="3" name="start" tags="" position="626,595" size="100,100">The Letter A
-&lt;&lt;set $currentLetter to &quot;C&quot; &gt;&gt;
+&lt;&lt;set $currentLetter to &quot;G&quot; &gt;&gt;
 
 
 Pick the picture that begins with $currentLetter
@@ -209,11 +239,14 @@ Pick the picture that begins with $currentLetter
 [img[setup.currentImage.random()]]
 
 
+&lt;&lt;set $cl to setup.getRandomImage($currentLetter)&gt;&gt;
+
 
 &lt;&lt;set $af to []&gt;&gt;
 
 &lt;&lt;set $af to setup.getOtherImages($currentLetter)&gt;&gt;
 
+&lt;&lt;print $cl&gt;&gt;
 &lt;&lt;print $af&gt;&gt;
 
 
