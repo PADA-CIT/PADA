@@ -142,12 +142,16 @@ h1 {
     width: 20%;
 }
 
-.image a {
-	border: 5px solid #001e1d;
+.image {
+	border: 10px solid #001e1d;
     border-radius: 10px;
     height: 20vh;
-    display: flex;
   	margin: 20px 0;
+}
+
+.image a {
+	display: flex;
+ 	height: 20vh;
 }
 
 img {
@@ -158,6 +162,14 @@ img {
 
 a.link-external:after {
 	display: none;
+}
+
+.correct {
+	border: 10px solid green;
+}
+
+.wrong {
+	border: 10px solid red;
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">var letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
 
 var pictureArray = [[["A"], ["images/a-anchor.png", "images/a-ant.jpg", "images/a-apple.jpg", "images/a-astronaut.jpg"]], [["B"], ["images/b-ball.jpg", "images/b-bee.jpg", "images/b-bin.png", "images/b-block.jpg", "images/b-box.jpg"]], [["C"], ["images/c-cake.png", "images/c-carrot.jpg", "images/c-cat.jpg", "images/c-caterpillar.jpg", "images/c-cot.jpg"]], [["D"], ["images/d-dinosaur.jpg", "images/d-doll.jpg", "images/d-duck.jpg"]], [["E"], ["images/e-egg.jpg", "images/e-elephant.jpg", "images/e-elf.jpg", "images/e-envelope.jpg"]], [["F"], ["images/f-fish.png", "images/f-five.jpg", "images/f-flamingo.jpg", "images/f-flower.jpg", "images/f-fly.jpg", "images/f-frog.jpg"]], [["G"], ["images/g-gate.png", "images/g-girl.jpg", "images/g-glasses.jpg", "images/g-goat.jpg", "images/g-grapes.png", "images/g-grass.png"]], [["H"], ["images/h-hat.png", "images/h-hippo.jpg", "images/h-home.jpg", "images/h-horse.jpg"]], [["I"], ["images/i-igloo.jpg", "images/i-iguana.jpg", "images/i-ink.jpg"]], [["J"], ["images/j-jam.jpg", "images/j-jar.jpg", "images/j-jelly.jpg", "images/j-jellyfish.jpg", "images/j-jet.png", "images/j-jigsaw.jpg", "images/j-jump.jpg"]], [["K"], ["images/k-kangaroo.jpg", "images/k-key.jpg", "images/k-king.jpg", "images/k-kiss.jpg", "images/k-kite.jpg", "images/k-kiwi.png"]], [["L"], ["images/l-leaf.png", "images/l-leg.png", "images/l-lemon.png", "images/l-lion.jpg", "images/l-log.jpg"]], [["M"], ["images/m-milk.png", "images/m-money.jpg", "images/m-monkey.jpg", "images/m-monster.jpg", "images/m-moon.jpg", "images/m-mouse.jpg"]], [["N"], ["images/n-necklace.jpg", "images/n-nest.jpg", "images/n-net.png", "images/n-nose.jpg", "images/n-nurse.jpg", "images/n-nut.jpg"]], [["O"], ["images/o-octopus.png", "images/o-olive.jpg", "images/o-orange.jpg", "images/o-ostrich.jpg"]], [["P"], ["images/p-pen.jpg", "images/p-pencil.png", "images/p-pepper.jpg", "images/p-pig.jpg", "images/p-pizza.jpg", "images/p-pot.jpg"]], [["Q"], ["images/q-queen.png", "images/q-question.jpg", "images/q-quiet.jpg", "images/q-quilt.jpg"]], [["R"], ["images/r-rainbow.jpg", "images/r-rat.jpg", "images/r-ring.jpg", "images/r-robot.png", "images/r-rocket.png", "images/r-rug.jpg"]], [["S"], ["images/s-sad.jpg", "images/s-six.png", "images/s-slide.png", "images/s-slime.jpg", "images/s-sock.png", "images/s-sun.png"]], [["T"], ["images/t-table.jpg", "images/t-tap.png", "images/t-teddy.jpg", "images/t-tent.jpg", "images/t-tiger.jpg"]], [["U"], ["images/u-umbrella.jpg", "images/u-under.jpg", "images/u-underpants.jpg", "images/u-up.png"]], [["V"], ["images/v-vase.jpg", "images/v-vest.jpg", "images/v-vet.jpg", "images/v-violin.png", "images/v-volcano.png"]], [["W"], ["images/w-wall.jpg", "images/w-watch.jpg", "images/w-web.jpg", "images/w-witch.jpg", "images/windmill.png"]], [["X"], ["images/x-axe.jpg", "images/x-fox.jpg", "images/x-ox.jpg"]], [["Y"], ["images/y-yaght.jpg", "images/y-yaght2.jpg", "images/y-yawn.jpg", "images/y-yoga.jpg", "images/y-yolk.jpg", "images/y-yougurt.jpg", "images/y-yoyo.png"]], [["Z"], ["images/z-zebra.png", "images/z-zero.jpg", "images/z-zigzag.jpg", "images/z-zip.jpg", "images/z-zoo.jpg"]]];
@@ -166,6 +178,9 @@ var pictureArray = [[["A"], ["images/a-anchor.png", "images/a-ant.jpg", "images/
 var returnFileNames = [];
 var returnLetters = [];
 var letterPictureArray = [];
+var fileOrder = [];
+var finalFileOrder = [];
+var correctFile = "";
 
 setup.returnOtherLetters = function (currentLetter) {
 
@@ -269,7 +284,7 @@ setup.getRandomImage = function (currentLetter) {
       var fileName_1_textName = letterPictureArray[1][fileName_1_index];
   
       letterPictureArray = [];
-
+			correctFile = fileName_1_textName;
       return fileName_1_textName
 
     }
@@ -324,33 +339,45 @@ while(true) {
 fileOrder[fileName_1_Index] = targetFile;
 fileOrder[fileName_2_Index] = randomFile1;
 fileOrder[fileName_3_Index] = randomFile2;
-
+fileOrder[3] = fileName_1_Index;
+	
+finalFileOrder = fileOrder;
 return fileOrder;
 }
 
-setup.checkIfCorrect = function (file) {
-alert("PADA CHECKING"+file);	
+setup.checkIfCorrect = function (arrayPosition) {
+// alert(correctFile + " " + file);
+	
+// alert(finalFileOrder[arrayPosition]);
+// alert(correctFile);
+var idName = "img" + arrayPosition;
+	
+if (correctFile == finalFileOrder[arrayPosition]) {
+		document.getElementById(idName).classList.add("correct");	 
+} else {
+		document.getElementById(idName).classList.add("wrong");
+}
+	
 }
 
 </script><tw-passagedata pid="1" name="Home" tags="" position="620,300" size="100,100">PADA
 ALPHABET GAME
 
 
-[[Start Playing]]</tw-passagedata><tw-passagedata pid="2" name="Start Playing" tags="" position="620,450" size="100,100">Select [[start]] to continue</tw-passagedata><tw-passagedata pid="3" name="start" tags="" position="626,595" size="100,100">&lt;&lt;set $currentLetter to &quot;A&quot; &gt;&gt;&lt;&lt;set $cl to setup.getRandomImage($currentLetter)&gt;&gt;&lt;&lt;set $af to []&gt;&gt;&lt;&lt;set $af to setup.getOtherImages($currentLetter)&gt;&gt;&lt;&lt;set $ri to []&gt;&gt;
-&lt;&lt;set $ri to setup.randomizeImages($cl, $af)&gt;&gt;&lt;&lt;nobr&gt;&gt;
+[[Start Playing]]</tw-passagedata><tw-passagedata pid="2" name="Start Playing" tags="" position="620,450" size="100,100">Select [[start]] to continue</tw-passagedata><tw-passagedata pid="3" name="start" tags="" position="626,595" size="100,100">&lt;&lt;set $currentLetter to &quot;A&quot; &gt;&gt;&lt;&lt;set $cl to setup.getRandomImage($currentLetter)&gt;&gt;&lt;&lt;set $af to []&gt;&gt;&lt;&lt;set $af to setup.getOtherImages($currentLetter)&gt;&gt;&lt;&lt;set $ri to []&gt;&gt;&lt;&lt;set $ri to setup.randomizeImages($cl, $af)&gt;&gt;&lt;&lt;nobr&gt;&gt;
 &lt;div class=&quot;container&quot;&gt;
 	&lt;div class=&quot;side-left&quot;&gt;
   		&lt;h1&gt;$currentLetter&lt;/h1&gt;
   	&lt;/div&gt;
 	&lt;div class=&quot;side-right&quot;&gt;
-		&lt;div class=&quot;image&quot;&gt;
-			&lt;&lt;link [img[$ri[0]]]&gt;&gt;&lt;&lt;script&gt;&gt;var file = setup.$ri[0];setup.checkIfCorrect(file);&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+		&lt;div class=&quot;image&quot; id=&quot;img0&quot;&gt;
+			&lt;&lt;link [img[$ri[0]]]&gt;&gt;&lt;&lt;script&gt;&gt;setup.checkIfCorrect(0);&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
 		&lt;/div&gt;
-		&lt;div class=&quot;image&quot;&gt;
-			&lt;&lt;link [img[$ri[1]]]&gt;&gt;&lt;&lt;script&gt;&gt;setup.checkIfCorrect();&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+		&lt;div class=&quot;image&quot; id=&quot;img1&quot;&gt;
+			&lt;&lt;link [img[$ri[1]]]&gt;&gt;&lt;&lt;script&gt;&gt;setup.checkIfCorrect(1);&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
 		&lt;/div&gt;
-		&lt;div class=&quot;image&quot;&gt;
-			&lt;&lt;link [img[$ri[2]]]&gt;&gt;&lt;&lt;script&gt;&gt;setup.checkIfCorrect();&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
+		&lt;div class=&quot;image&quot; id=&quot;img2&quot;&gt;
+			&lt;&lt;link [img[$ri[2]]]&gt;&gt;&lt;&lt;script&gt;&gt;setup.checkIfCorrect(2);&lt;&lt;/script&gt;&gt;&lt;&lt;/link&gt;&gt;
 		&lt;/div&gt;
 	&lt;/div&gt;
 &lt;/div&gt;&lt;&lt;/nobr&gt;&gt;</tw-passagedata></tw-storydata>
